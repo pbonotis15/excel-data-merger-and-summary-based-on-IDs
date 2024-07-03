@@ -1,11 +1,14 @@
 # Author: Panos Bonotis -> https://www.linkedin.com/in/panagiotis-bonotis-351a7996/
- # Date: Jul-2024
- # Description: This project is a Python-based tool designed 
- # to automate the aggregation and processing of multiple Excel files. 
- # It provides a user-friendly interface for selecting input and output directories, 
- # reads and concatenates data from multiple Excel sheets, standardizes column names, 
- # and removes duplicates based on specified criteria. 
- # The processed data is then saved into a new Excel file. 
+# Date: Jul-2024
+# Description: This project is a Python-based tool designed 
+# to automate the aggregation and processing of multiple Excel files. 
+# It provides a user-friendly interface for selecting input and output directories, 
+# reads and concatenates data from multiple Excel sheets, standardizes column names, 
+# filters data based on specified criteria, and merges relevant information. 
+# Additionally, it removes duplicate entries based on the 'SR ID' and 'Ημερομηνία Δημιουργίας' columns, 
+# ensuring that only the most recent entry for each 'SR ID' is retained. 
+# The processed data is then saved into a new Excel file with multiple sheets: 
+# 'Aggregated Data', 'Summary of Actions', and 'Last Drop'. 
 
 import pandas as pd
 
