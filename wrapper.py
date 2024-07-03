@@ -1,4 +1,11 @@
-# wrapper.py
+# Author: Panos Bonotis
+ # Date: Jul-2024
+ # Description: This project is a Python-based tool designed 
+ # to automate the aggregation and processing of multiple Excel files. 
+ # It provides a user-friendly interface for selecting input and output directories, 
+ # reads and concatenates data from multiple Excel sheets, standardizes column names, 
+ # and removes duplicates based on specified criteria. 
+ # The processed data is then saved into a new Excel file.
 
 import __innit__
 import tkinter as tk
