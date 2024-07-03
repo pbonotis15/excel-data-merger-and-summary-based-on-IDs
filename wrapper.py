@@ -10,7 +10,7 @@
 # The processed data is then saved into a new Excel file with multiple sheets: 
 # 'Aggregated Data', 'Summary of Actions', and 'Last Drop'. 
 
-import __innit__
+import summarize_and_merge
 import tkinter as tk
 from tkinter import filedialog, simpledialog
 
@@ -24,7 +24,7 @@ def get_file_path():
 
 def get_excel_sheet(file_path):
     # Read all sheet names from the Excel file
-    sheet_names = __innit__.get_sheet_names(file_path)
+    sheet_names = summarize_and_merge.get_sheet_names(file_path)
     
     root = tk.Tk()
     root.withdraw()  # Hide the main window
@@ -52,4 +52,4 @@ if __name__ == "__main__":
         output_folder = get_output_folder()
 
         if output_folder:
-            __innit__.main(file_path1, file_path2, sheet_name, output_folder)  # Pass the selected file path to your __init__.py script
+            summarize_and_merge.main(file_path1, file_path2, sheet_name, output_folder)  # Pass the selected file path to your __init__.py script
