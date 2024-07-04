@@ -123,7 +123,8 @@ def main(file_path1, file_path2, sheet_name, output_folder):
         data_df = pd.concat(merged_dfs, ignore_index=True)
 
         # Remove duplicate SR ID entries based on the column 'Ημ/νία Αίτησης', keeping the latest date
-        data_df['Ημ/νία Αίτησης'] = pd.to_datetime(data_df['Ημ/νία Αίτησης'])
+        date_format = "%m/%d/%Y %I:%M %p"  # Adjust this to your date format
+        data_df['Ημ/νία Αίτησης'] = pd.to_datetime(data_df['Ημ/νία Αίτησης'], format=date_format, errors='coerce')
         data_df = data_df.sort_values('Ημ/νία Αίτησης').drop_duplicates(subset=['SR ID'], keep='last')
 
         final_df = pd.concat(merged_dfs, ignore_index=True)
