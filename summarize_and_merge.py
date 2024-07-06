@@ -54,9 +54,9 @@ def main(file_path1, file_path2, sheet_name, output_folder):
                               merged_bid[['SR ID', 'Τύπος εργασίας', 'Ημ/νία Αίτησης', 'Τεχνικός σε Ανάθεση (KAM)', 'Κατάσταση', 'Ημερομηνία Ολοκλήρωσης', 'Τ.Τ.Λ.Π.', 'Διεύθυνση πελάτη', 'Αριθμός Οδού', 'Έναρξη Ραντεβού', 'Έγκριση Εργασίας', 'Κατηγορία Αιτήματος', 'TYPE', 'ΤΗΛΕΦΩΝΟ ΠΑΡΑΓΓΕΛΙΑΣ', 'ADDRESS', 'FLOOR', 'PILOT', 'A/K', 'ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ', 'AGE', 'ΚΙΝΗΤΟ ΠΕΛΑΤΗ', 'ΣΤΑΘΕΡΟ ΠΕΛΑΤΗ', 'E-MAIL ΠΕΛΑΤΗ', 'ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΔΙΑΧΕΙΡΙΣΤΗ', 'ΚΙΝΗΤΟ ΔΙΑΧΕΙΡΙΣΤΗ', 'ΣΤΑΘΕΡΟ ΔΙΑΧΕΙΡΙΣΤΗ', 'E-MAIL ΔΙΑΧΕΙΡΙΣΤΗ', 'CREATED', 'BUILDING ID', 'BEP/FB CODE', 'BEP/FB PORT', 'BEP/FB TYPE']],
                               merged_new_flow[['SR ID', 'sr_created', 'FIELDTASKTYPE', 'FIELDTASKSTATUS', 'full_adr', 'AGE', 'pilot', 'customer', 'mobile', 'Τύπος εργασίας', 'Ημ/νία Αίτησης', 'Τεχνικός σε Ανάθεση (KAM)', 'Κατάσταση', 'Ημερομηνία Ολοκλήρωσης', 'Τ.Τ.Λ.Π.', 'Διεύθυνση πελάτη', 'Αριθμός Οδού', 'Έναρξη Ραντεβού', 'Έγκριση Εργασίας', 'Κατηγορία Αιτήματος', 'building Id']]], ignore_index=True)
     
-        # Remove duplicate SR ID entries based on the column 'Ημερομηνία Δημιουργίας', keeping the latest date
+        # Remove duplicate entries based on 'SR ID' and 'Τύπος εργασίας' columns, keeping the latest date
         data_df['Ημ/νία Αίτησης'] = pd.to_datetime(data_df['Ημ/νία Αίτησης'])
-        data_df = data_df.sort_values('Ημ/νία Αίτησης').drop_duplicates(subset=['SR ID'], keep='last')
+        data_df = data_df.sort_values('Ημ/νία Αίτησης').drop_duplicates(subset=['SR ID', 'Τύπος εργασίας'], keep='last')
 
         #Create the Last drop sheet
         last_drop_rows = []
