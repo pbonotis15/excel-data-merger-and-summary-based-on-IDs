@@ -62,21 +62,65 @@ def main(file_path1, file_path2, sheet_name, output_folder):
         last_drop_rows = []
         unique_sr_idsLD = final_df['SR ID'].unique()
         for ld_sr_id in unique_sr_idsLD:
-            rowLS = {}
-            rowLS['SR ID'] = ld_sr_id
-            pilot1_df = final_df[final_df['SR ID'] == ld_sr_id]['PILOT']
-            pilot2_df = final_df[final_df['SR ID'] == ld_sr_id]['pilot']
-            if not pilot1_df.empty and not pilot1_df.isna().values[0]:
-                rowLS['PILOT'] = final_df[final_df['SR ID'] == ld_sr_id]['PILOT'].values[0]
-            elif not pilot2_df.empty:
-                rowLS['PILOT'] = final_df[final_df['SR ID'] == ld_sr_id]['pilot'].values[0]
-            else:
-                rowLS['PILOT'] = None 
-            rowLS['Ημερομηνία Εκτέλεσης (As-built)'] = final_df[final_df['SR ID'] == ld_sr_id]['sr_created'].values[0]
-            rowLS['Pilot/Last drop'] = final_df[final_df['SR ID'] == ld_sr_id]['FIELDTASKTYPE'].values[0]
-            rowLS['Κατάσταση (As-built)'] = final_df[final_df['SR ID'] == ld_sr_id]['FIELDTASKSTATUS'].values[0]
-            rowLS['As-built/Απολογισμός'] = None
-            last_drop_rows.append(rowLS)
+            if not final_df[final_df['SR ID'] == ld_sr_id]['sr_created'].isna().values[0]: #Making sure to pass only the last drop entries
+                rowLS = {}
+                rowLS['SR ID'] = ld_sr_id
+                pilot1_df = final_df[final_df['SR ID'] == ld_sr_id]['PILOT']
+                pilot2_df = final_df[final_df['SR ID'] == ld_sr_id]['pilot']
+                if not pilot1_df.empty and not pilot1_df.isna().values[0]:
+                    rowLS['PILOT'] = final_df[final_df['SR ID'] == ld_sr_id]['PILOT'].values[0]
+                elif not pilot2_df.empty:
+                    rowLS['PILOT'] = final_df[final_df['SR ID'] == ld_sr_id]['pilot'].values[0]
+                else:
+                    rowLS['PILOT'] = None 
+                buildin1_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['BUILDING ID']
+                buildin2_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['building Id']
+                if not buildin1_df_ld.empty and not buildin1_df_ld.isna().values[0]:
+                    rowLS['BUILDING ID'] = final_df[final_df['SR ID'] == ld_sr_id]['BUILDING ID'].values[0]
+                elif not buildin2_df_ld.empty :
+                    rowLS['BUILDING ID'] = final_df[final_df['SR ID'] == ld_sr_id]['building Id'].values[0]
+                else:
+                    rowLS['BUILDING ID'] = None
+                adress1_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['ADDRESS']
+                adress2_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['full_adr']
+                if not adress1_df_ld.empty and not adress1_df_ld.isna().values[0]:
+                    rowLS['ADDRESS'] = final_df[final_df['SR ID'] == ld_sr_id]['ADDRESS'].values[0]
+                elif not adress2_df_ld.empty:
+                    rowLS['ADDRESS'] = final_df[final_df['SR ID'] == ld_sr_id]['full_adr'].values[0]
+                else:
+                    rowLS['ADDRESS'] = None                        
+                rowLS['FLOOR'] = final_df[final_df['SR ID'] == ld_sr_id]['FLOOR'].values[0]
+                age_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['AGE']
+                AGE_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['AGE']
+                if not age_df_ld.empty and not age_df_ld.isna().values[0]:
+                    rowLS['AGE'] = final_df[final_df['SR ID'] == ld_sr_id]['AGE'].values[0]
+                elif not AGE_df_ld.empty:
+                    rowLS['AGE'] = final_df[final_df['SR ID'] == ld_sr_id]['AGE'].values[0]
+                else:
+                    rowLS['AGE'] = None            
+                rowLS['Ημερομηνία Εκτέλεσης (As-built)'] = final_df[final_df['SR ID'] == ld_sr_id]['sr_created'].values[0]
+                rowLS['Όνομα'] = df1[df1['SR ID'] == ld_sr_id]['Όνομα'].values[0]
+                rowLS['Τεχνικός σε Ανάθεση (KAM)'] = df1[df1['SR ID'] == ld_sr_id]['Τεχνικός σε Ανάθεση (KAM)'].values[0]
+                rowLS['Pilot/Last drop'] = final_df[final_df['SR ID'] == ld_sr_id]['FIELDTASKTYPE'].values[0]
+                rowLS['Κατάσταση (As-built)'] = final_df[final_df['SR ID'] == ld_sr_id]['FIELDTASKSTATUS'].values[0]
+                rowLS['As-built/Απολογισμός'] = None
+                customer1_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ']
+                customer2_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['customer']
+                if not customer1_df_ld.empty and not customer1_df_ld.isna().values[0]:
+                    rowLS['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == ld_sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'].values[0]
+                elif not customer2_df_ld.empty:
+                    rowLS['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == ld_sr_id]['customer'].values[0]
+                else:
+                    rowLS['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = None 
+                customertel1_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['ΚΙΝΗΤΟ ΠΕΛΑΤΗ']
+                customertel2_df_ld = final_df[final_df['SR ID'] == ld_sr_id]['mobile']
+                if not customertel1_df_ld.empty and not customertel1_df_ld.isna().values[0]:
+                    rowLS['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == ld_sr_id]['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'].values[0]
+                elif not customertel2_df_ld.empty:
+                    rowLS['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == ld_sr_id]['mobile'].values[0]
+                else:
+                    rowLS['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = None
+                last_drop_rows.append(rowLS)
 
         last_drop_df = pd.DataFrame(last_drop_rows)
       
@@ -84,88 +128,90 @@ def main(file_path1, file_path2, sheet_name, output_folder):
         summary_rows = []
         unique_sr_ids = final_df['SR ID'].unique()
         for sr_id in unique_sr_ids:
-            row = {}
-            row['SR ID'] = sr_id
-            buildin1_df = final_df[final_df['SR ID'] == sr_id]['BUILDING ID']
-            buildin2_df = final_df[final_df['SR ID'] == sr_id]['building Id']
-            if not buildin1_df.empty and not buildin1_df.isna().values[0]:
-                row['BUILDING ID'] = final_df[final_df['SR ID'] == sr_id]['BUILDING ID'].values[0]
-            elif not buildin2_df.empty :
-                row['BUILDING ID'] = final_df[final_df['SR ID'] == sr_id]['building Id'].values[0]
-            else:
-                row['BUILDING ID'] = None
-            adress1_df = final_df[final_df['SR ID'] == sr_id]['ADDRESS']
-            adress2_df = final_df[final_df['SR ID'] == sr_id]['full_adr']
-            if not adress1_df.empty and not adress1_df.isna().values[0]:
-                row['ADDRESS'] = final_df[final_df['SR ID'] == sr_id]['ADDRESS'].values[0]
-            elif not adress2_df.empty:
-                row['ADDRESS'] = final_df[final_df['SR ID'] == sr_id]['full_adr'].values[0]
-            else:
-                row['ADDRESS'] = None                        
-            row['FLOOR'] = final_df[final_df['SR ID'] == sr_id]['FLOOR'].values[0]
-            row['A/K'] = final_df[final_df['SR ID'] == sr_id]['A/K'].values[0]
-            age_df = final_df[final_df['SR ID'] == sr_id]['AGE']
-            AGE_df = final_df[final_df['SR ID'] == sr_id]['AGE']
-            if not age_df.empty and not age_df.isna().values[0]:
-                row['AGE/AGE'] = final_df[final_df['SR ID'] == sr_id]['AGE'].values[0]
-            elif not AGE_df.empty:
-                row['AGE/AGE'] = final_df[final_df['SR ID'] == sr_id]['AGE'].values[0]
-            else:
-                row['AGE/AGE'] = None            
-            row['CREATED'] = final_df[final_df['SR ID'] == sr_id]['CREATED'].values[0]
-            row['Όνομα'] = df1[df1['SR ID'] == sr_id]['Όνομα'].values[0]
-            row['Τεχνικός σε Ανάθεση (KAM)'] = df1[df1['SR ID'] == sr_id]['Τεχνικός σε Ανάθεση (KAM)'].values[0]
-            autopsia_df = final_df[(final_df['SR ID'] == sr_id) & (final_df['Τύπος εργασίας'] == 'ΑΥΤΟΨΙΑ FTTH')]
-            if not autopsia_df.empty:
-                row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)'] = autopsia_df['Ημ/νία Αίτησης'].max()
-                row['Τύπος εργασίας (ΑΥΤΟΨΙΑ)'] = autopsia_df[autopsia_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)']]['Τύπος εργασίας'].values[0]
-                row['Κατάσταση (ΑΥΤΟΨΙΑ)'] = autopsia_df[autopsia_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)']]['Κατάσταση'].values[0]
-            else:
-                row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)'] = None
-                row['Τύπος εργασίας (ΑΥΤΟΨΙΑ)'] = None
-                row['Κατάσταση (ΑΥΤΟΨΙΑ)'] = None
-            kataskevi_df = final_df[(final_df['SR ID'] == sr_id) & (final_df['Τύπος εργασίας'] == 'ΚΑΤΑΣΚΕΥΗ FTTH')]
-            if not kataskevi_df.empty:
-                row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)'] = kataskevi_df['Ημ/νία Αίτησης'].max()
-                row['Τύπος εργασίας (ΚΑΤΑΣΚΕΥΗ)'] = kataskevi_df[kataskevi_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)']]['Τύπος εργασίας'].values[0]
-                row['Κατάσταση (ΚΑΤΑΣΚΕΥΗ)'] = kataskevi_df[(kataskevi_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)'])]['Κατάσταση'].values[0]
-            else:
-                row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)'] = None
-                row['Τύπος εργασίας (ΚΑΤΑΣΚΕΥΗ)'] = None
-                row['Κατάσταση (ΚΑΤΑΣΚΕΥΗ)'] = None
-            row['Ημερομηνία Εκτέλεσης (Χωματουργικές Εργασίες)'] = None
-            row['Κατάσταση (Χωματουργικές Εργασίες)'] = None
-            row['Ημερομηνία Εκτέλεσης (Δικτυακές Εργασίες)'] = None
-            row['Δικτυακές Εργασίες'] = None
-            row['Κατάσταση (Δικτυακές Εργασίες)'] = None
-            # Here was the Pilot/As build and Last drop info
-            row['Κατηγορία Αιτήματος'] = final_df[final_df['SR ID'] == sr_id]['Κατηγορία Αιτήματος'].values[0]
-            row['ΤΗΛΕΦΩΝΟ ΠΑΡΑΓΓΕΛΙΑΣ'] = final_df[final_df['SR ID'] == sr_id]['ΤΗΛΕΦΩΝΟ ΠΑΡΑΓΓΕΛΙΑΣ'].values[0]
-            customer1_df = final_df[final_df['SR ID'] == sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ']
-            customer2_df = final_df[final_df['SR ID'] == sr_id]['customer']
-            if not customer1_df.empty and not customer1_df.isna().values[0]:
-                row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'].values[0]
-            elif not customer2_df.empty:
-                row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['customer'].values[0]
-            else:
-                row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = None 
-            customertel1_df = final_df[final_df['SR ID'] == sr_id]['ΚΙΝΗΤΟ ΠΕΛΑΤΗ']
-            customertel2_df = final_df[final_df['SR ID'] == sr_id]['mobile']
-            if not customertel1_df.empty and not customertel1_df.isna().values[0]:
-                row['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'].values[0]
-            elif not customertel2_df.empty:
-                row['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['mobile'].values[0]
-            else:
-                row['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = None
-            row['ΣΤΑΘΕΡΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΣΤΑΘΕΡΟ ΠΕΛΑΤΗ'].values[0]
-            row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΔΙΑΧΕΙΡΙΣΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΔΙΑΧΕΙΡΙΣΤΗ'].values[0]
-            row['ΚΙΝΗΤΟ ΔΙΑΧΕΙΡΙΣΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΚΙΝΗΤΟ ΔΙΑΧΕΙΡΙΣΤΗ'].values[0]
-            row['ΣΤΑΘΕΡΟ ΔΙΑΧΕΙΡΙΣΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΣΤΑΘΕΡΟ ΔΙΑΧΕΙΡΙΣΤΗ'].values[0]
-            row['BEP/FB CODE'] = final_df[final_df['SR ID'] == sr_id]['BEP/FB CODE'].values[0]
-            row['BEP/FB PORT'] = final_df[final_df['SR ID'] == sr_id]['BEP/FB PORT'].values[0]
-            row['BEP/FB TYPE'] = final_df[final_df['SR ID'] == sr_id]['BEP/FB TYPE'].values[0]
+            #print(final_df['sr_created'])
+            if final_df[final_df['SR ID'] == sr_id]['sr_created'].isna().values[0]: #Making sure to pass only the non-last drop entries
+                row = {}
+                row['SR ID'] = sr_id
+                buildin1_df = final_df[final_df['SR ID'] == sr_id]['BUILDING ID']
+                buildin2_df = final_df[final_df['SR ID'] == sr_id]['building Id']
+                if not buildin1_df.empty and not buildin1_df.isna().values[0]:
+                    row['BUILDING ID'] = final_df[final_df['SR ID'] == sr_id]['BUILDING ID'].values[0]
+                elif not buildin2_df.empty :
+                    row['BUILDING ID'] = final_df[final_df['SR ID'] == sr_id]['building Id'].values[0]
+                else:
+                    row['BUILDING ID'] = None
+                adress1_df = final_df[final_df['SR ID'] == sr_id]['ADDRESS']
+                adress2_df = final_df[final_df['SR ID'] == sr_id]['full_adr']
+                if not adress1_df.empty and not adress1_df.isna().values[0]:
+                    row['ADDRESS'] = final_df[final_df['SR ID'] == sr_id]['ADDRESS'].values[0]
+                elif not adress2_df.empty:
+                    row['ADDRESS'] = final_df[final_df['SR ID'] == sr_id]['full_adr'].values[0]
+                else:
+                    row['ADDRESS'] = None                        
+                row['FLOOR'] = final_df[final_df['SR ID'] == sr_id]['FLOOR'].values[0]
+                row['A/K'] = final_df[final_df['SR ID'] == sr_id]['A/K'].values[0]
+                age_df = final_df[final_df['SR ID'] == sr_id]['AGE']
+                AGE_df = final_df[final_df['SR ID'] == sr_id]['AGE']
+                if not age_df.empty and not age_df.isna().values[0]:
+                    row['AGE'] = final_df[final_df['SR ID'] == sr_id]['AGE'].values[0]
+                elif not AGE_df.empty:
+                    row['AGE'] = final_df[final_df['SR ID'] == sr_id]['AGE'].values[0]
+                else:
+                    row['AGE'] = None            
+                row['CREATED'] = final_df[final_df['SR ID'] == sr_id]['CREATED'].values[0]
+                row['Όνομα'] = df1[df1['SR ID'] == sr_id]['Όνομα'].values[0]
+                row['Τεχνικός σε Ανάθεση (KAM)'] = df1[df1['SR ID'] == sr_id]['Τεχνικός σε Ανάθεση (KAM)'].values[0]
+                autopsia_df = final_df[(final_df['SR ID'] == sr_id) & (final_df['Τύπος εργασίας'] == 'ΑΥΤΟΨΙΑ FTTH')]
+                if not autopsia_df.empty:
+                    row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)'] = autopsia_df['Ημ/νία Αίτησης'].max()
+                    row['Τύπος εργασίας (ΑΥΤΟΨΙΑ)'] = autopsia_df[autopsia_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)']]['Τύπος εργασίας'].values[0]
+                    row['Κατάσταση (ΑΥΤΟΨΙΑ)'] = autopsia_df[autopsia_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)']]['Κατάσταση'].values[0]
+                else:
+                    row['Ημ/νία Αίτησης (ΑΥΤΟΨΙΑ)'] = None
+                    row['Τύπος εργασίας (ΑΥΤΟΨΙΑ)'] = None
+                    row['Κατάσταση (ΑΥΤΟΨΙΑ)'] = None
+                kataskevi_df = final_df[(final_df['SR ID'] == sr_id) & (final_df['Τύπος εργασίας'] == 'ΚΑΤΑΣΚΕΥΗ FTTH')]
+                if not kataskevi_df.empty:
+                    row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)'] = kataskevi_df['Ημ/νία Αίτησης'].max()
+                    row['Τύπος εργασίας (ΚΑΤΑΣΚΕΥΗ)'] = kataskevi_df[kataskevi_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)']]['Τύπος εργασίας'].values[0]
+                    row['Κατάσταση (ΚΑΤΑΣΚΕΥΗ)'] = kataskevi_df[(kataskevi_df['Ημ/νία Αίτησης'] == row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)'])]['Κατάσταση'].values[0]
+                else:
+                    row['Ημ/νία Αίτησης (ΚΑΤΑΣΚΕΥΗ)'] = None
+                    row['Τύπος εργασίας (ΚΑΤΑΣΚΕΥΗ)'] = None
+                    row['Κατάσταση (ΚΑΤΑΣΚΕΥΗ)'] = None
+                row['Ημερομηνία Εκτέλεσης (Χωματουργικές Εργασίες)'] = None
+                row['Κατάσταση (Χωματουργικές Εργασίες)'] = None
+                row['Ημερομηνία Εκτέλεσης (Δικτυακές Εργασίες)'] = None
+                row['Δικτυακές Εργασίες'] = None
+                row['Κατάσταση (Δικτυακές Εργασίες)'] = None
+                # Here was the Pilot/As build and Last drop info
+                row['Κατηγορία Αιτήματος'] = final_df[final_df['SR ID'] == sr_id]['Κατηγορία Αιτήματος'].values[0]
+                row['ΤΗΛΕΦΩΝΟ ΠΑΡΑΓΓΕΛΙΑΣ'] = final_df[final_df['SR ID'] == sr_id]['ΤΗΛΕΦΩΝΟ ΠΑΡΑΓΓΕΛΙΑΣ'].values[0]
+                customer1_df = final_df[final_df['SR ID'] == sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ']
+                customer2_df = final_df[final_df['SR ID'] == sr_id]['customer']
+                if not customer1_df.empty and not customer1_df.isna().values[0]:
+                    row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'].values[0]
+                elif not customer2_df.empty:
+                    row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['customer'].values[0]
+                else:
+                    row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΠΕΛΑΤΗ'] = None 
+                customertel1_df = final_df[final_df['SR ID'] == sr_id]['ΚΙΝΗΤΟ ΠΕΛΑΤΗ']
+                customertel2_df = final_df[final_df['SR ID'] == sr_id]['mobile']
+                if not customertel1_df.empty and not customertel1_df.isna().values[0]:
+                    row['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'].values[0]
+                elif not customertel2_df.empty:
+                    row['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['mobile'].values[0]
+                else:
+                    row['ΚΙΝΗΤΟ ΠΕΛΑΤΗ'] = None
+                row['ΣΤΑΘΕΡΟ ΠΕΛΑΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΣΤΑΘΕΡΟ ΠΕΛΑΤΗ'].values[0]
+                row['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΔΙΑΧΕΙΡΙΣΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΌΝΟΜΑΤΕΠΩΝΥΜΟ ΔΙΑΧΕΙΡΙΣΤΗ'].values[0]
+                row['ΚΙΝΗΤΟ ΔΙΑΧΕΙΡΙΣΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΚΙΝΗΤΟ ΔΙΑΧΕΙΡΙΣΤΗ'].values[0]
+                row['ΣΤΑΘΕΡΟ ΔΙΑΧΕΙΡΙΣΤΗ'] = final_df[final_df['SR ID'] == sr_id]['ΣΤΑΘΕΡΟ ΔΙΑΧΕΙΡΙΣΤΗ'].values[0]
+                row['BEP/FB CODE'] = final_df[final_df['SR ID'] == sr_id]['BEP/FB CODE'].values[0]
+                row['BEP/FB PORT'] = final_df[final_df['SR ID'] == sr_id]['BEP/FB PORT'].values[0]
+                row['BEP/FB TYPE'] = final_df[final_df['SR ID'] == sr_id]['BEP/FB TYPE'].values[0]
 
-            summary_rows.append(row)
+                summary_rows.append(row)
 
         summary_df = pd.DataFrame(summary_rows)
 
